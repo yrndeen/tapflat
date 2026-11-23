@@ -1,0 +1,17 @@
+{
+  "package_id": "io.tapflat.g2",
+  "edition": "202601",
+  "name": "Tapflat",
+  "version": "0.1.0",
+  "min_app_version": "0.1.0",
+  "tagline": "One-tap Hyperliquid testnet glance and paper flatten for G2",
+  "description": "Monochrome 576x288 G2 glance app reading live Hyperliquid testnet mark prices via a local proxy and executing reduce-only paper flatten tickets with one tap or R1 ring click.",
+  "author": "Tapflat",
+  "entrypoint": "index.html",
+  "permissions": {
+    "network": [
+      "http://localhost:8787",
+      "http://127.0.0.1:8787"
+    ]
+  }
+}

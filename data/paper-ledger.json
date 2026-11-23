@@ -1,0 +1,31 @@
+{
+  "mode": "PAPER",
+  "nextTicketNum": 1002,
+  "positions": {
+    "SOL": {
+      "coin": "SOL",
+      "side": "LONG",
+      "size": 25,
+      "entryPrice": 71.1358,
+      "openedAt": "2026-11-23T12:52:40.979Z",
+      "mode": "PAPER"
+    }
+  },
+  "tickets": [
+    {
+      "ticketId": "TF-1001",
+      "mode": "PAPER",
+      "action": "FLATTEN_REDUCE_ONLY",
+      "reduceOnly": true,
+      "coin": "SOL",
+      "closedSide": "LONG",
+      "closedSize": 25,
+      "entryPrice": 71.4736,
+      "fillPrice": 72.05,
+      "realizedPnlUsd": 14.41,
+      "remainingSize": 0,
+      "trigger": "tap",
+      "executedAt": "2026-11-23T09:17:56.612Z"
+    }
+  ]
+}
