@@ -1,0 +1,65 @@
+name: Publish demo to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: publish-pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current gh-pages (for index.html)
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: src
+
+      - name: Build orphan gh-pages site and push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p site
+          cp src/index.html site/index.html
+          printf '\n' > site/.nojekyll
+          curl -L --fail -o site/tapflat-demo-final.mp4 \
+            "https://github.com/yrndeen/tapflat/releases/download/v1.0.0/tapflat-demo-final.mp4"
+          echo "bfab645bcffcbca99ef197d0a103dca278f31f7b3096e732f645c12f8d6a9358  site/tapflat-demo-final.mp4" | sha256sum -c
+          ls -lh site
+          cd site
+          git init
+          git checkout --orphan gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Publish Tapflat demo video on an orphan gh-pages branch"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          git push -f origin gh-pages
+
+      - name: Enable GitHub Pages on gh-pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if gh api "repos/${{ github.repository }}/pages" >/tmp/pages.json; then
+            echo "Pages already exists; updating source to gh-pages /"
+            gh api -X PUT "repos/${{ github.repository }}/pages" \
+              -H "Accept: application/vnd.github+json" \
+              -f "build_type=legacy" \
+              -f "source[branch]=gh-pages" \
+              -f "source[path]=/"
+          else
+            echo "Creating Pages site from gh-pages /"
+            gh api -X POST "repos/${{ github.repository }}/pages" \
+              -H "Accept: application/vnd.github+json" \
+              -f "build_type=legacy" \
+              -f "source[branch]=gh-pages" \
+              -f "source[path]=/"
+          fi
