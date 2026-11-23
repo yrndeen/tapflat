@@ -1,0 +1,22 @@
+{
+  "name": "tapflat",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Tapflat — Even Realities G2 glance app for Hyperliquid testnet mark monitoring and one-tap reduce-only paper flatten (Track 02: Crypto & DeFi)",
+  "scripts": {
+    "dev:server": "node server/index.mjs",
+    "dev:app": "vite --config app/vite.config.ts --port 5173 --strictPort",
+    "build": "vite build --config app/vite.config.ts",
+    "typecheck": "tsc --noEmit -p app/tsconfig.json",
+    "test": "node --test tests/tapflat.test.mjs",
+    "sim": "npx evenhub-simulator http://localhost:5173"
+  },
+  "dependencies": {
+    "@evenrealities/even_hub_sdk": "^0.0.16"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vite": "^6.2.0"
+  }
+}
